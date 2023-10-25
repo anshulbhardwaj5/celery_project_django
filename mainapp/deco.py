@@ -135,3 +135,4 @@ obj_sparrow.flight()
 
 obj_ostrich.intro()
 obj_ostrich.flight()
+
