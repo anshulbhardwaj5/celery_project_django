@@ -8,7 +8,7 @@ def test_func(self):
         print(i, "Count")
         counts.append(i)
         print(counts)
-    return counts
+    return countsapp.autodiscover_tasks()
 
 @shared_task(bind=True)
 def add_numbers(a, b):

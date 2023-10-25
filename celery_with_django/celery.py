@@ -11,7 +11,7 @@ app.conf.update(timezone = 'Asia/Kolkata')
 app.config_from_object(settings, namespace='CELERY')
 
 # CELERY BEAT SETTINGS
-app.conf.beat_schedule = {
+app.conf.beat_schedule = {     #cron
 
 }
 
