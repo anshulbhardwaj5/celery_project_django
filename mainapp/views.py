@@ -194,8 +194,6 @@ class ListUsers(APIView):
         return Response(usernames)
 
 
-
-
 # import datetime
 # import logging
 # import influxdb_client, os, time

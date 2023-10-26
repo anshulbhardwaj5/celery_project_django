@@ -127,12 +127,73 @@ obj_bird = Birds()
 obj_sparrow = sparrow()
 obj_ostrich = ostrich()
 
-obj_bird.intro()
-obj_bird.flight()
+# obj_bird.intro()
+# obj_bird.flight()
 
-obj_sparrow.intro()
-obj_sparrow.flight()
+# obj_sparrow.intro()
+# obj_sparrow.flight()
 
-obj_ostrich.intro()
-obj_ostrich.flight()
+# obj_ostrich.intro()
+# obj_ostrich.flight()
 
+
+stack = [3, 4, 5]
+stack.append(5)
+stack.append(7)
+
+from collections import deque
+
+queue = deque(["Eric", "John", "Michael"])
+queue.append("Terry")
+print(queue)
+queue.popleft()
+print(queue)
+
+
+squares = []
+
+for x in range(10):
+    squares.append(x**2)
+
+print(squares)
+
+squares = list(map(lambda x: x**2, range(10)))
+
+print(squares)
+
+l1 = [(x, z) for x in [1, 2, 3] for z in [3, 2, 4] if x != z]
+
+# print(l1)
+
+
+vec = [-4, -2, 0, 2, 4]
+v_list = [x*2 for x in vec if x >= 0]
+print(v_list, '------>')
+
+
+abc_list = [abs(x) for x in vec]
+print(abc_list)
+
+# call a method on each element
+freshfruits = ["    banana","    uiyndf", "    kjf", "    apple"]
+print([freshfruits.strip() for freshfruits in freshfruits], 'freshfruits---->>')
+
+# create a list of 2-tuples like (number, square)
+two_tuples = [(x , x*2) for x in range(6)]
+print(two_tuples, "2-tuples")
+
+# flatten a list using a listcomp with two 'for'
+vec = [[1, 3, 3], [4, 5222, 6], [111, 8, 9]]
+flatten_list = [num for elem in vec for num in elem]
+# print(flatten_list, 'flatten_list----->>>')
+
+a = set('abracadabra')
+b = set('alacazam')
+
+print(a, "a-")
+print(a - b) #letters in a but not in b
+print(a & b, "a and b") # letters in both a and b
+print(a | b) # letters in both a or b
+print(a ^ b, ) #letters in a or b but not both
+
+a = {x for x in 'abracadabra' if x not in 'abc'}
