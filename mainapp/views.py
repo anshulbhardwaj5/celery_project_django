@@ -223,13 +223,13 @@ class UserList(generics.ListCreateAPIView):
 
 
 from rest_framework.generics import GenericAPIView
-from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework import status
 
 class ReturnItemList(ListModelMixin, GenericAPIView):
 
-  queryset = Item.objects.all() 
+  queryset = Item.objects.all()
   serializer_class = ItemSerializer
 
   def get(self, request, *args, **kwargs):
@@ -255,4 +255,47 @@ class ItemDelete(DestroyModelMixin, GenericAPIView):
   serializer_class = ItemSerializer
 
   def delete(self, request, *args, **kwargs):
+    instance = self.get_object()
+    self.perform_destroy(instance)
+
+    response_data = {
+      'message': "Record deleted successfully.",
+      'status': status.HTTP_204_NO_CONTENT,
+      'instance': instance
+      }
+
+    return Response(response_data, status=status.HTTP_204_NO_CONTENT)
+
+class ItemUpdate(UpdateModelMixin, GenericAPIView):
+  queryset = Item.objects.all()
+  serializer_class = ItemSerializer
+
+  def put(self, request, *args, **kwargs):
+    return self.update(request, *args, **kwargs)
+class ItemRUDMixin(UpdateModelMixin, GenericAPIView, DestroyModelMixin, RetrieveModelMixin): # Delete Update Read Mixin Group PK required.
+  
+  queryset = Item.objects.all()
+  serializer_class = ItemSerializer
+
+  def put(self, request, *args, **kwargs):
+    return self.update(request, *args, **kwargs)
+
+  def get(self, request, *args, **kwargs):
+    return self.retrieve(request, *args, **kwargs)
+
+  def delete(self, request, *args, **kwargs):
     return self.destroy(request, *args, **kwargs)
+
+
+# List and create model mixin PK not required. Group fall.
+class LCItemList(ListModelMixin, GenericAPIView, CreateModelMixin):
+
+  queryset = Item.objects.all()
+  serializer_class = ItemSerializer
+
+  def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
+  
+  def post(self, request, *args, **kwargs):
+    return self.create(request, *args, **kwargs)
+
