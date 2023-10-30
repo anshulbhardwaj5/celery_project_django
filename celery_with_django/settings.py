@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -129,6 +129,14 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
+AUTH_USER_MODEL = 'mainapp.User'
 
 # CELERY SETTINGS
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
@@ -141,3 +149,54 @@ CELERY_TIMEZONE = 'Asia/Kolkata'
 #CELERY BEAT SETTINGS
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(levelname)s msg:%(message)s'
+        },
+        'simple': {
+             'format': '%(levelname)s %(asctime)s %(module)s %(lineno)s %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, "logs/info.log"),
+            'formatter': 'verbose'
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, "logs/error.log"),
+        },
+    },
+    'loggers': {
+        "django": {
+            'handlers': ['info'],
+            'propagate': False,
+            'level': "DEBUG"
+        },
+        "errors": {
+            'handlers': ['error'],
+            'propagate': False,
+            'level': "ERROR"
+        },
+    },
+    'daphne': {
+    'handlers': [
+        'console',
+    ],
+    'level': 'DEBUG'
+    },
+}
